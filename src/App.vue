@@ -1,12 +1,23 @@
 <template>
-  <div id="app">Hello world</div>
+  <div id="app">
+    <Search class="mb-3" />
+
+    <div class="container px-4">
+      <ProductList />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import Search from './components/Search.vue';
+import ProductList from './components/products/ProductList.vue';
 
 @Component({
-  components: {}
+  components: {
+    Search,
+    ProductList
+  }
 })
 export default class App extends Vue {}
 </script>
@@ -16,8 +27,5 @@ export default class App extends Vue {}
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

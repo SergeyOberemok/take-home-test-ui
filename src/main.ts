@@ -4,7 +4,7 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
-import '@/assets/tailwind.css';
+import '@/assets/scss/_main.scss';
 
 new Vue({
   store,
