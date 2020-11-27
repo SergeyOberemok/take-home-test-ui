@@ -1,0 +1,47 @@
+<template>
+  <div class="customer--wrapper">
+    <div class="container p-2 flex flex-col">
+      <div class="flex flex-row mb-2">
+        <div class="customer--avatar w-10 h-10 bg-black rounded-full">
+          <img class="w-10 h-10" />
+        </div>
+        <div class="flex flex-col mx-3">
+          <div class="customer--fio text-lg">
+            <span>{{ customer.name }}</span>
+          </div>
+          <div class="text-sm">
+            <div class="customer--role inline">{{ customer.job.title }}</div>
+            <div class="customer--company text-gray-500">
+              {{ customer.job.company }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="customer--quotes border-l-4 border-gray-300 italic text-gray-700 pl-5"
+      >
+        {{ customer.quote }}
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Customer } from '@/BL/models';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+
+@Component({})
+export default class Product extends Vue {
+  @Prop({ required: true })
+  customer!: Customer;
+}
+</script>
+
+<style lang="scss">
+.customer--company {
+  display: flex;
+  &:before {
+    content: ' @ ';
+  }
+}
+</style>

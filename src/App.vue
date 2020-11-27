@@ -1,22 +1,22 @@
 <template>
   <div id="app">
-    <Search class="mb-3" />
+    <search-component class="mb-3" />
 
     <div class="container px-4">
-      <ProductList />
+      <product-list-component />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Search from './components/Search.vue';
-import ProductList from './components/products/ProductList.vue';
+import SearchComponent from './components/SearchComponent.vue';
+import ProductListComponent from './components/products/ProductListComponent.vue';
 
 @Component({
   components: {
-    Search,
-    ProductList
+    SearchComponent,
+    ProductListComponent
   }
 })
 export default class App extends Vue {}
