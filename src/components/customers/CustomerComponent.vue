@@ -5,22 +5,42 @@
         <div class="customer--avatar w-10 h-10 bg-black rounded-full">
           <img class="w-10 h-10" />
         </div>
+
         <div class="flex flex-col mx-3">
           <div class="customer--fio text-lg">
-            <span>{{ customer.name }}</span>
+            <span
+              :inner-html.prop="customer.name | highlight(searchCriteria)"
+            ></span>
           </div>
+
           <div class="text-sm">
-            <div class="customer--role inline">{{ customer.job.title }}</div>
+            <div class="customer--role inline">
+              <span
+                :inner-html.prop="
+                  customer.job.title | highlight(searchCriteria)
+                "
+              ></span>
+            </div>
+
             <div class="customer--company text-gray-500">
-              {{ customer.job.company }}
+              <span
+                :inner-html.prop="
+                  customer.job.company | highlight(searchCriteria)
+                "
+              ></span>
             </div>
           </div>
         </div>
       </div>
+
       <div
-        class="customer--quotes border-l-4 border-gray-300 italic text-gray-700 pl-5"
+        class="customer--quotes border-l-4 border-gray-300 italic text-gray-700 text-sm pl-5"
       >
-        {{ customer.quote }}
+        <blockquote
+          :inner-html.prop="customer.quote | highlight(searchCriteria)"
+        >
+          {{ customer.quote }}
+        </blockquote>
       </div>
     </div>
   </div>
@@ -34,6 +54,10 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 export default class Product extends Vue {
   @Prop({ required: true })
   customer!: Customer;
+
+  get searchCriteria(): string {
+    return this.$store.state.searchCriteria;
+  }
 }
 </script>
 

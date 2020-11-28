@@ -13,8 +13,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import CustomerComponent from './CustomerComponent.vue';
-import axios from 'axios';
-import { Customer, CustomerDto } from '@/BL/models';
+import { Customer } from '@/BL/models';
 
 @Component({
   components: {
@@ -25,19 +24,12 @@ export default class CustomerList extends Vue {
   @Prop({ required: true })
   productId!: string;
 
-  customers: Customer[] = [];
-
   created(): void {
-    axios
-      .get<{ id: string; name: string; customers: CustomerDto[] }>(
-        `http://localhost:9000/products/${this.productId}`
-      )
-      .then(
-        ({ data }) =>
-          (this.customers = data.customers.map((customer) =>
-            Object.assign(new Customer(), customer)
-          ))
-      );
+    this.$store.commit('fetchCustomers', this.productId);
+  }
+
+  get customers(): Customer[] {
+    return this.$store.getters.customerList(this.productId);
   }
 }
 </script>

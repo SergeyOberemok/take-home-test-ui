@@ -2,7 +2,9 @@
   <div class="product--wrapper">
     <div class="card border rounded-md shadow bg-white overflow-hidden">
       <div class="title bg-gray-50 p-2 border-b-2 border-gray-200">
-        {{ product.name }}
+        <span
+          :inner-html.prop="product.name | highlight(searchCriteria)"
+        ></span>
       </div>
 
       <div class="content">
@@ -23,6 +25,10 @@ import CustomerListComponent from '../customers/CustomerListComponent.vue';
 export default class ProductComponent extends Vue {
   @Prop({ required: true })
   product!: Product;
+
+  get searchCriteria(): string {
+    return this.$store.state.searchCriteria;
+  }
 }
 </script>
 

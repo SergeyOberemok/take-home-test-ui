@@ -12,24 +12,22 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import ProductComponent from './ProductComponent.vue';
-import axios from 'axios';
-import { Product, ProductDto } from '@/BL/models/index';
+import { Product } from '@/BL/models/index';
 
 @Component({
   components: { ProductComponent }
 })
 export default class ProductListComponent extends Vue {
-  products: Product[] = [];
-
   created(): void {
-    axios
-      .get<ProductDto[]>('http://localhost:9000/products')
-      .then(
-        ({ data }) =>
-          (this.products = data.map((product) =>
-            Object.assign(new Product(), product)
-          ))
-      );
+    this.$store.commit('fetchProducts');
+  }
+
+  get products(): Product[] {
+    return this.$store.getters.filteredProducts;
+  }
+
+  get criteria(): string {
+    return this.$store.state.searchCriteria;
   }
 }
 </script>

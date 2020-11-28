@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <search-component class="mb-3" />
+    <search-component class="mb-3" v-on:search-changed="applySearch" />
 
     <div class="container px-4">
       <product-list-component />
@@ -19,7 +19,11 @@ import ProductListComponent from './components/products/ProductListComponent.vue
     ProductListComponent
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  applySearch(criteria: string): void {
+    this.$store.commit('changeSearch', criteria);
+  }
+}
 </script>
 
 <style lang="scss">

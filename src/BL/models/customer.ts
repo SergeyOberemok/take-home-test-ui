@@ -1,3 +1,4 @@
+import { Searchable } from '../search';
 import { AddressDto } from './address';
 import { JobDto } from './job';
 
@@ -14,7 +15,8 @@ export interface CustomerDto {
   quote: string;
 }
 
-export class Customer implements CustomerDto {
+export class Customer<T extends string = string>
+  implements CustomerDto, Searchable<T> {
   id: number;
   name: string;
   dateOfBirth: string;
@@ -45,5 +47,15 @@ export class Customer implements CustomerDto {
       company: ''
     };
     this.quote = '';
+  }
+
+  isSatisfied(criteria: T): boolean {
+    const regex = new RegExp(`.*${criteria}.*`, 'gi');
+
+    return this.getSearchableValues().some((value: string) => regex.test(value));
+  }
+
+  private getSearchableValues(): string[] {
+    return [this.name, this.job.title, this.job.company, this.quote];
   }
 }
