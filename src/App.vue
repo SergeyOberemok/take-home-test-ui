@@ -25,6 +25,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import SearchComponent from './components/SearchComponent.vue';
 import ProductListComponent from './components/products/ProductListComponent.vue';
 import { environment } from './environment/environment';
+import { throttle } from 'lodash-es';
 
 @Component({
   components: {
@@ -43,6 +44,21 @@ export default class App extends Vue {
     if (environment.isUpdatingOn) {
       this.$store.commit('updatedProducts');
     }
+  }
+
+  mounted(): void {
+    window.addEventListener(
+      'scroll',
+      throttle(() => {
+        if (
+          window.scrollY > 100 &&
+          window.scrollY ===
+            document.body.scrollHeight - document.body.offsetHeight
+        ) {
+          this.$store.commit('loadMissingCustomers');
+        }
+      }, 1000)
+    );
   }
 
   get isLoading(): boolean {

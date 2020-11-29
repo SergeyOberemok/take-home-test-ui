@@ -4,6 +4,7 @@ import { customerList, filteredProducts, product } from './getters';
 import {
   changeSearch,
   loadCustomers,
+  loadMissingCustomers,
   loadProducts,
   updatedProducts
 } from './mutations';
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     changeSearch,
     loadProducts,
     loadCustomers,
+    loadMissingCustomers,
     updatedProducts
   },
   actions: {},
