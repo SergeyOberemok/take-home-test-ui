@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
+import { Product } from '@/BL/models';
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import Product from '../customers/CustomerComponent.vue';
 import CustomerListComponent from '../customers/CustomerListComponent.vue';
 
 @Component({
@@ -25,6 +25,12 @@ import CustomerListComponent from '../customers/CustomerListComponent.vue';
 export default class ProductComponent extends Vue {
   @Prop({ required: true })
   product!: Product;
+
+  created(): void {
+    if (!this.product.isCustomerListLoaded()) {
+      this.$store.commit('loadCustomers', this.product.id);
+    }
+  }
 
   get searchCriteria(): string {
     return this.$store.state.searchCriteria;

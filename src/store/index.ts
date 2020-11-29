@@ -1,14 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { customerList, filteredProducts, product } from './getters';
-import { changeSearch, fetchCustomers, fetchProducts } from './mutations';
+import {
+  changeSearch,
+  loadCustomers,
+  loadProducts,
+  updatedProducts
+} from './mutations';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     searchCriteria: '',
-    products: []
+    products: [],
+    isLoading: false
   },
   getters: {
     filteredProducts,
@@ -17,8 +23,9 @@ export default new Vuex.Store({
   },
   mutations: {
     changeSearch,
-    fetchProducts,
-    fetchCustomers
+    loadProducts,
+    loadCustomers,
+    updatedProducts
   },
   actions: {},
   modules: {}

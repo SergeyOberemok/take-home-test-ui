@@ -1,11 +1,13 @@
 <template>
-  <div class="product-list--wrapper flex sm:flex-col md:flex-row">
+  <div class="product-list--wrapper w-full flex flex-col md:flex-row">
     <product-component
       v-for="product in products"
       :key="product.id"
       v-bind:product="product"
-      class="md:mr-4 sm:mb-4"
+      class="mr-0 md:mr-4 mb-4 md:mb-0"
     />
+
+    <div v-if="products.length === 0" class="px-2">List is empty</div>
   </div>
 </template>
 
@@ -18,10 +20,6 @@ import { Product } from '@/BL/models/index';
   components: { ProductComponent }
 })
 export default class ProductListComponent extends Vue {
-  created(): void {
-    this.$store.commit('fetchProducts');
-  }
-
   get products(): Product[] {
     return this.$store.getters.filteredProducts;
   }

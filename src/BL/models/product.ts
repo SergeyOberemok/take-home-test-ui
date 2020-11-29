@@ -34,4 +34,8 @@ export class Product<T extends string = string>
       )
     );
   }
+
+  isCustomerListLoaded(): boolean {
+    return this.customers > 0 && this.customerList.length > 0;
+  }
 }

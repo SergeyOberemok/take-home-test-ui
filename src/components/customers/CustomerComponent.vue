@@ -2,8 +2,12 @@
   <div class="customer--wrapper">
     <div class="container p-2 flex flex-col">
       <div class="flex flex-row mb-2">
-        <div class="customer--avatar w-10 h-10 bg-black rounded-full">
-          <img class="w-10 h-10" />
+        <div class="customer--avatar w-10 h-10 flex-shrink-0">
+          <img
+            class="w-10 h-10 rounded-full"
+            v-bind:src="customer.avatar"
+            v-bind:alt="customer.name"
+          />
         </div>
 
         <div class="flex flex-col mx-3">
@@ -22,7 +26,7 @@
               ></span>
             </div>
 
-            <div class="customer--company text-gray-500">
+            <div class="customer--company inline text-gray-500">
               <span
                 :inner-html.prop="
                   customer.job.company | highlight(searchCriteria)

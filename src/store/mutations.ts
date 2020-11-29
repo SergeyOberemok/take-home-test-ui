@@ -1,23 +1,22 @@
-import { Customer, CustomerDto, Product, ProductDto } from '@/BL/models';
-import axios from 'axios';
+import { fetchCustomers, fetchProducts, productsStream } from '@/BL/fetching';
+import { Customer, Product } from '@/BL/models';
 import { State } from './state';
 
 export function changeSearch(state: State, criteria: string): void {
   state.searchCriteria = criteria;
 }
 
-export function fetchProducts(state: State): void {
-  axios
-    .get<ProductDto[]>('http://localhost:9000/products')
-    .then(
-      ({ data }) =>
-        (state.products = data.map((product) =>
-          Object.assign(new Product(), product)
-        ))
-    );
+export function loadProducts(state: State): void {
+  state.isLoading = true;
+
+  fetchProducts().then(
+    (products: Product[]) => (
+      (state.products = products), (state.isLoading = false)
+    )
+  );
 }
 
-export function fetchCustomers(state: State, productId: string): void {
+export function loadCustomers(state: State, productId: string): void {
   const product = state.products.find(
     (product: Product) => product.id === productId
   );
@@ -26,14 +25,17 @@ export function fetchCustomers(state: State, productId: string): void {
     return;
   }
 
-  axios
-    .get<{ id: string; name: string; customers: CustomerDto[] }>(
-      `http://localhost:9000/products/${productId}`
+  state.isLoading = true;
+
+  fetchCustomers(product.id).then(
+    (customers: Customer[]) => (
+      (product.customerList = customers), (state.isLoading = false)
     )
-    .then(
-      ({ data }) =>
-        (product.customerList = data.customers.map((customer) =>
-          Object.assign(new Customer(), customer)
-        ))
-    );
+  );
+}
+
+export async function updatedProducts(state: State) {
+  for await (const products of productsStream) {
+    state.products = products;
+  }
 }

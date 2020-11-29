@@ -4,9 +4,14 @@
       v-for="(customer, i) in customers"
       :key="customer.id"
       v-bind:customer="customer"
-      class="border-b border-gray-200"
-      v-bind:class="{ 'mb-2': i < customers.length - 1 }"
+      class="border-gray-200"
+      v-bind:class="{
+        'mb-2': i < customers.length - 1,
+        'border-b': i < customers.length - 1
+      }"
     />
+
+    <div v-if="customers.length === 0" class="px-2">List is empty</div>
   </div>
 </template>
 
@@ -23,10 +28,6 @@ import { Customer } from '@/BL/models';
 export default class CustomerList extends Vue {
   @Prop({ required: true })
   productId!: string;
-
-  created(): void {
-    this.$store.commit('fetchCustomers', this.productId);
-  }
 
   get customers(): Customer[] {
     return this.$store.getters.customerList(this.productId);
