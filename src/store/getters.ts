@@ -1,3 +1,4 @@
+import { search } from '@/BL/helpers';
 import { Customer, Product } from '@/BL/models';
 import { Searchable } from '@/BL/search';
 import { State } from './state';
@@ -8,7 +9,7 @@ export function filteredProducts(state: State): Product[] {
   }
 
   return state.products.filter((product: Searchable<string>) =>
-    product.isSatisfied(state.searchCriteria)
+    product.isSatisfied((value: string) => search(value, state.searchCriteria))
   );
 }
 
@@ -36,7 +37,9 @@ export function customerList(
     }
 
     return product.customerList.filter((customer: Searchable<string>) =>
-      customer.isSatisfied(state.searchCriteria)
+      customer.isSatisfied((value: string) =>
+        search(value, state.searchCriteria)
+      )
     );
   };
 }

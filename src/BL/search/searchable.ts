@@ -1,3 +1,3 @@
 export interface Searchable<T> {
-  isSatisfied(criteria: T): boolean;
+  isSatisfied(predicate: (value: T) => boolean): boolean;
 }

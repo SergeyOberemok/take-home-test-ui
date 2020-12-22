@@ -8,8 +8,7 @@ export interface ProductDto {
   customers: number;
 }
 
-export class Product<T extends string = string>
-  implements ProductDto, Searchable<T> {
+export class Product implements ProductDto, Searchable<string> {
   id: string;
   self: string;
   name: string;
@@ -26,11 +25,11 @@ export class Product<T extends string = string>
     this.customerList = [];
   }
 
-  isSatisfied(criteria: T): boolean {
+  isSatisfied(predicate: (value: string) => boolean): boolean {
     return (
-      new RegExp(`.*${criteria}.*`, 'gi').test(this.name) ||
+      predicate(this.name) ||
       this.customerList.some((customer: Customer) =>
-        customer.isSatisfied(criteria)
+        customer.isSatisfied(predicate)
       )
     );
   }

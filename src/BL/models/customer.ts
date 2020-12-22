@@ -15,8 +15,7 @@ export interface CustomerDto {
   quote: string;
 }
 
-export class Customer<T extends string = string>
-  implements CustomerDto, Searchable<T> {
+export class Customer implements CustomerDto, Searchable<string> {
   id: number;
   name: string;
   dateOfBirth: string;
@@ -49,10 +48,8 @@ export class Customer<T extends string = string>
     this.quote = '';
   }
 
-  isSatisfied(criteria: T): boolean {
-    const regex = new RegExp(`.*${criteria}.*`, 'gi');
-
-    return this.getSearchableValues().some((value: string) => regex.test(value));
+  isSatisfied(predicate: (value: string) => boolean): boolean {
+    return this.getSearchableValues().some((value: string) => predicate(value));
   }
 
   private getSearchableValues(): string[] {

@@ -5,7 +5,7 @@
       placeholder="Search"
       class="search--input appearance-none w-full p-3"
       v-model="value"
-      v-on:input="$emit('search-changed', value)"
+      v-on:input="$emit('search-changed', value.trim())"
     />
     <span
       class="search--clear font-bold text-2xl text-gray-400"

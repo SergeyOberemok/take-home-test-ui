@@ -1,4 +1,4 @@
-import { Product } from "@/BL/models";
+import { Product } from '@/BL/models';
 
 export interface State {
   searchCriteria: string;
